@@ -59,6 +59,7 @@ function blockToMarkdown(b: Block): string {
     case 'exercise': return `**Задача${b.number ? ` ${b.number}` : ''}.** ${b.question}\n\n<details><summary>Решение</summary>\n\n${b.answer ? `**Ответ:** ${b.answer}\n\n` : ''}${b.explanation}\n\n</details>\n`
     case 'quote': return `> ${b.content}${b.author ? `\n>\n> — *${b.author}*` : ''}\n`
     case 'divider': return `\n---\n`
+    default: return ''
   }
 }
 
@@ -288,6 +289,7 @@ function blockToHTML(b: Block, idx: number): string {
       if (b.style === 'plain') return `<hr style="border:none;border-top:1px solid var(--rule);margin:20px 0;">`
       if (b.style === 'flourish') return `<div class="codex-divider codex-divider-flourish">❦ ❦ ❦</div>`
       return `<div class="codex-divider" style="display:flex;align-items:center;gap:14px;"><div style="flex:1;height:1px;background:var(--rule);"></div><span style="font-family:var(--font-serif);font-size:18px;">✦</span><div style="flex:1;height:1px;background:var(--rule);"></div></div>`
+    default: return ''
   }
 }
 

@@ -1554,7 +1554,7 @@ function drawQuantumWell(ctx: CanvasRenderingContext2D, W: number, H: number, t:
 
 // ───────────────────────────── Диспетчер ─────────────────────────────
 
-const RENDERERS: Record<AnimType, (ctx: CanvasRenderingContext2D, W: number, H: number, t: number, p: any) => void> = {
+const RENDERERS: Partial<Record<AnimType, (ctx: CanvasRenderingContext2D, W: number, H: number, t: number, p: any) => void>> = {
   'function-derivative': drawFunctionDerivative,
   'linear-transform': drawLinearTransform,
   'fourier-series': drawFourier,

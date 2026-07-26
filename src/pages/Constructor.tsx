@@ -33,6 +33,7 @@ function newBlock(type: BlockType): Block {
     case 'exercise': return { id, type, question: 'Условие задачи…', answer: '', explanation: '', number: '' } as ExerciseBlock
     case 'quote': return { id, type, content: 'Цитата…', author: '' } as QuoteBlock
     case 'divider': return { id, type, style: 'fancy' } as DividerBlock
+    default: throw new Error(`Unsupported block type: ${type}`)
   }
 }
 
@@ -785,13 +786,14 @@ function ImageBody({ block, onPatch }: { block: ImageBlock; onPatch: (p: Partial
 
 function AnimationBody({ block, onPatch }: { block: AnimationBlock; onPatch: (p: Partial<Block>) => void }) {
   const meta = ANIM_REGISTRY.find(a => a.type === block.animType)
-  const [tab, setTab] = useState<'math' | 'physics'>(meta?.category ?? 'math')
+  const categories = Object.keys(ANIMS_BY_CATEGORY) as Array<keyof typeof ANIMS_BY_CATEGORY>
+  const [tab, setTab] = useState<keyof typeof ANIMS_BY_CATEGORY>(meta?.category ?? 'math')
 
   return (
     <div style={{ border: '1px solid var(--rule)', borderRadius: 4, overflow: 'hidden', background: '#ede4d0' }}>
       <div style={{ padding: 10, borderBottom: '1px solid var(--rule)', background: 'var(--paper)' }}>
         <div style={{ display: 'flex', gap: 4, marginBottom: 8 }}>
-          {(['math', 'physics'] as const).map(c => (
+          {categories.map(c => (
             <button key={c} onClick={() => setTab(c)} style={{
               padding: '4px 12px', cursor: 'pointer', fontFamily: 'var(--font-ui)', fontSize: 12,
               background: tab === c ? 'var(--ink)' : 'transparent',
